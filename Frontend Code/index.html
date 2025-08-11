@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain-Powered Product Tracking System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="splash-screen">
+        <div class="splash-content">
+            <h1 id="splash-text" class="splash-title">Blockchain-Powered Product Tracking System</h1>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="main-app" class="main-app hidden">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="brand">
+                        <h1 class="brand-name">Blockchain-Powered Product Tracking System</h1>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <!-- Welcome Section -->
+                <section class="welcome-section">
+                    <h3 class="section-title">Operations Are:</h3>
+                </section>
+
+                <!-- Dashboard Grid -->
+                <section class="dashboard">
+                    <div class="dashboard-grid">
+                        <div class="action-card create" onclick="openModal('createProductModal')">
+                            <div class="card-header">
+                                <div class="card-icon">📦</div>
+                                <h3 class="card-title">Create Product</h3>
+                            </div>
+                            <p class="card-description">Register a new product in the supply chain</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+                        
+                        <div class="action-card transit" onclick="openModal('markInTransitModal')">
+                            <div class="card-header">
+                                <div class="card-icon">🚛</div>
+                                <h3 class="card-title">Mark In Transit</h3>
+                            </div>
+                            <p class="card-description">Update product status to in-transit</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+                        
+                        <div class="action-card delivered" onclick="openModal('markDeliveredModal')">
+                            <div class="card-header">
+                                <div class="card-icon">✅</div>
+                                <h3 class="card-title">Mark Delivered</h3>
+                            </div>
+                            <p class="card-description">Confirm product delivery completion</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+                        
+                        <div class="action-card update" onclick="openModal('updateQuantityModal')">
+                            <div class="card-header">
+                                <div class="card-icon">📈</div>
+                                <h3 class="card-title">Update Quantity</h3>
+                            </div>
+                            <p class="card-description">Modify product quantity information</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+                        
+                        <div class="action-card view" onclick="openModal('viewDetailsModal')">
+                            <div class="card-header">
+                                <div class="card-icon">🔍</div>
+                                <h3 class="card-title">View Details</h3>
+                            </div>
+                            <p class="card-description">Check comprehensive product information</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+                        
+                        <div class="action-card history" onclick="openModal('viewHistoryModal')">
+                            <div class="card-header">
+                                <div class="card-icon">📋</div>
+                                <h3 class="card-title">View History</h3>
+                            </div>
+                            <p class="card-description">Track complete product journey</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Create Product Modal -->
+    <div id="createProductModal" class="modal">
+        <div class="modal-overlay" onclick="closeModal('createProductModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Create New Product</h2>
+                <button class="modal-close" onclick="closeModal('createProductModal')">×</button>
+            </div>
+            <form id="createProductForm" class="modal-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="productName" class="form-label">Product Name</label>
+                        <input type="text" id="productName" class="form-input" placeholder="Enter product name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input type="number" id="quantity" class="form-input" placeholder="Enter quantity" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="producerAddress" class="form-label">Producer Address</label>
+                        <input type="text" id="producerAddress" class="form-input" placeholder="0x..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="distributorAddress" class="form-label">Distributor Address</label>
+                        <input type="text" id="distributorAddress" class="form-input" placeholder="0x..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="retailerAddress" class="form-label">Retailer Address</label>
+                        <input type="text" id="retailerAddress" class="form-input" placeholder="0x..." required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('createProductModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mark InTransit Modal -->
+    <div id="markInTransitModal" class="modal">
+        <div class="modal-overlay" onclick="closeModal('markInTransitModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Mark Product In Transit</h2>
+                <button class="modal-close" onclick="closeModal('markInTransitModal')">×</button>
+            </div>
+            <form id="markInTransitForm" class="modal-form">
+                <div class="form-group">
+                    <label for="transitProductId" class="form-label">Product ID</label>
+                    <input type="number" id="transitProductId" class="form-input" placeholder="Enter product ID" min="1" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('markInTransitModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Mark In Transit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mark Delivered Modal -->
+    <div id="markDeliveredModal" class="modal">
+        <div class="modal-overlay" onclick="closeModal('markDeliveredModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Mark Product Delivered</h2>
+                <button class="modal-close" onclick="closeModal('markDeliveredModal')">×</button>
+            </div>
+            <form id="markDeliveredForm" class="modal-form">
+                <div class="form-group">
+                    <label for="deliveredProductId" class="form-label">Product ID</label>
+                    <input type="number" id="deliveredProductId" class="form-input" placeholder="Enter product ID" min="1" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('markDeliveredModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Mark Delivered</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Update Quantity Modal -->
+    <div id="updateQuantityModal" class="modal">
+        <div class="modal-overlay" onclick="closeModal('updateQuantityModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Update Product Quantity</h2>
+                <button class="modal-close" onclick="closeModal('updateQuantityModal')">×</button>
+            </div>
+            <form id="updateQuantityForm" class="modal-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="updateProductId" class="form-label">Product ID</label>
+                        <input type="number" id="updateProductId" class="form-input" placeholder="Enter product ID" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newQuantity" class="form-label">New Quantity</label>
+                        <input type="number" id="newQuantity" class="form-input" placeholder="Enter new quantity" min="1" required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('updateQuantityModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Quantity</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Details Modal -->
+    <div id="viewDetailsModal" class="modal">
+        <div class="modal-overlay" onclick="closeModal('viewDetailsModal')"></div>
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 class="modal-title">Product Details</h2>
+                <button class="modal-close" onclick="closeModal('viewDetailsModal')">×</button>
+            </div>
+            <form id="viewDetailsForm" class="modal-form">
+                <div class="form-group">
+                    <label for="detailsProductId" class="form-label">Product ID</label>
+                    <input type="number" id="detailsProductId" class="form-input" placeholder="Enter product ID" min="1" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('viewDetailsModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Fetch Details</button>
+                </div>
+            </form>
+            <div id="productDetails" class="product-details hidden">
+                <div class="details-card">
+                    <div class="details-header">
+                        <h3 id="detailName" class="details-title">Product Name</h3>
+                        <div class="details-id">ID: <span id="detailId"></span></div>
+                    </div>
+                    <div class="details-content">
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <span class="detail-label">Quantity</span>
+                                <span id="detailQuantity" class="detail-value">0</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Status</span>
+                                <span id="detailState" class="detail-value status-badge">Unknown</span>
+                            </div>
+                        </div>
+                        <div class="stakeholders-section">
+                            <h4 class="stakeholders-title">Stakeholders</h4>
+                            <div class="stakeholders-grid">
+                                <div class="stakeholder-item">
+                                    <span class="stakeholder-role">Producer</span>
+                                    <span id="detailProducer" class="stakeholder-address">0x0000...0000</span>
+                                </div>
+                                <div class="stakeholder-item">
+                                    <span class="stakeholder-role">Distributor</span>
+                                    <span id="detailDistributor" class="stakeholder-address">0x0000...0000</span>
+                                </div>
+                                <div class="stakeholder-item">
+                                    <span class="stakeholder-role">Retailer</span>
+                                    <span id="detailRetailer" class="stakeholder-address">0x0000...0000</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View History Modal -->
+    <div id="viewHistoryModal" class="modal">
+        <div class="modal-overlay" onclick="closeModal('viewHistoryModal')"></div>
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 class="modal-title">Product History</h2>
+                <button class="modal-close" onclick="closeModal('viewHistoryModal')">×</button>
+            </div>
+            <form id="viewHistoryForm" class="modal-form">
+                <div class="form-group">
+                    <label for="historyProductId" class="form-label">Product ID</label>
+                    <input type="number" id="historyProductId" class="form-input" placeholder="Enter product ID" min="1" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('viewHistoryModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Fetch History</button>
+                </div>
+            </form>
+            <div id="productHistory" class="product-history hidden">
+                <div class="history-header">
+                    <h3 class="history-title">State History</h3>
+                </div>
+                <div id="historyList" class="history-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">
+        <div class="toast-content">
+            <span id="toast-message"></span>
+        </div>
+    </div>
+
+    <!-- Load only app.js since ABI is now included there -->
+    <script src="app.js"></script>
+</body>
+</html>
